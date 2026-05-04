@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Acadexa</string>
+    <string name="app_tagline">Stay ahead. Stay organized.</string>
+    <string name="logo_description">Acadexa logo</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Log In</string>
+    <string name="sign_up_prompt">New student? Create an account</string>
+    <string name="register">Register</string>
+    <string name="create_account_title">Create your Acadexa account</string>
+    <string name="register_subtitle">Plan smarter, submit earlier, stress less.</string>
+    <string name="already_have_account">Already have an account? Log In</string>
+</resources>

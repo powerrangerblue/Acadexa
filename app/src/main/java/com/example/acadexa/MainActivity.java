@@ -23,10 +23,36 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        final AuthRepository authRepo = new AuthRepository(this);
+
+        // If already logged in, go straight to dashboard
+        if (authRepo.getCurrentUser() != null) {
+            startActivity(new Intent(this, DashboardActivity.class));
+            finish();
+            return;
+        }
+
+        final android.widget.EditText emailInput = findViewById(R.id.emailInput);
+        final android.widget.EditText passwordInput = findViewById(R.id.passwordInput);
+        final com.google.android.material.button.MaterialButton loginButton = findViewById(R.id.loginButton);
         TextView signUpText = findViewById(R.id.signUpText);
-        signUpText.setOnClickListener(v -> {
-            Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(registerIntent);
+
+        signUpText.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
+
+        loginButton.setOnClickListener(v -> {
+            final String emailOrId = emailInput.getText().toString().trim();
+            final String pass = passwordInput.getText().toString();
+            new Thread(() -> {
+                AuthRepository.Result res = authRepo.login(emailOrId, pass);
+                runOnUiThread(() -> {
+                    if (res.success) {
+                        startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+                        finish();
+                    } else {
+                        android.widget.Toast.makeText(MainActivity.this, res.message, android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }).start();
         });
     }
 }

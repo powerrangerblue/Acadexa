@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.UUID;
 
 public class AuthRepository {
     private final AppDatabase db;
@@ -20,6 +21,7 @@ public class AuthRepository {
 
     public static final String PREFS_NAME = "acadexa_prefs";
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_SESSION_TOKEN = "session_token";
 
     public AuthRepository(Context context) {
         db = AppDatabase.getInstance(context);
@@ -100,6 +102,7 @@ public class AuthRepository {
                     boolean ok = BCrypt.checkpw(password, user.password);
                     if (!ok) return new Result(false, "Invalid credentials", null);
                     prefs.edit().putInt(KEY_USER_ID, user.id).apply();
+                    prefs.edit().putString(KEY_SESSION_TOKEN, UUID.randomUUID().toString()).apply();
                     return new Result(true, "Logged in", user);
                 }
             });
@@ -110,7 +113,7 @@ public class AuthRepository {
     }
 
     public void logout() {
-        prefs.edit().remove(KEY_USER_ID).apply();
+        prefs.edit().remove(KEY_USER_ID).remove(KEY_SESSION_TOKEN).apply();
     }
 
     public User getCurrentUser() {
@@ -127,5 +130,13 @@ public class AuthRepository {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public String getSessionToken() {
+        return prefs.getString(KEY_SESSION_TOKEN, null);
+    }
+
+    public boolean isLoggedIn() {
+        return getCurrentUser() != null && getSessionToken() != null;
     }
 }

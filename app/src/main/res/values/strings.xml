@@ -14,4 +14,5 @@
     <string name="full_name_hint">Full name</string>
     <string name="student_id_hint">Student ID (optional)</string>
     <string name="already_have_account">Already have an account? Log In</string>
+    <string name="back">Back</string>
 </resources>

@@ -5,13 +5,15 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "tasks",
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
                 childColumns = "userId",
                 onDelete = ForeignKey.CASCADE),
         indices = {@Index("userId")})
-public class Task {
+public class Task implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int id;
 

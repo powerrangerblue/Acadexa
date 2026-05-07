@@ -267,7 +267,7 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
     private void openScheduleForm(Schedule schedule) {
         AddScheduleDialogFragment.OnScheduleSavedListener listener = savedSchedule -> refreshDashboard();
         AddScheduleDialogFragment fragment = schedule == null
-                ? AddScheduleDialogFragment.newInstance(userId, listener)
+            ? AddScheduleDialogFragment.newInstance(userId, new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date()), listener)
                 : AddScheduleDialogFragment.newEditInstance(userId, schedule, listener);
         fragment.show(getSupportFragmentManager(), "dashboard_schedule_form");
     }

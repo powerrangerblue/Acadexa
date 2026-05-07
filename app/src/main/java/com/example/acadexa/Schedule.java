@@ -5,6 +5,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
@@ -16,7 +17,7 @@ import java.util.Locale;
                 childColumns = "userId",
                 onDelete = ForeignKey.CASCADE),
         indices = {@Index("userId")})
-public class Schedule {
+public class Schedule implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int id;
 

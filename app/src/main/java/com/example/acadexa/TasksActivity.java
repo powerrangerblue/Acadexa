@@ -157,11 +157,12 @@ public class TasksActivity extends AppCompatActivity implements TaskAdapter.OnTa
     }
 
     private void openTaskForm(Task task) {
-        AddTaskDialogFragment.OnTaskSavedListener listener = savedTask -> refreshTasks();
-        AddTaskDialogFragment fragment = task == null
-                ? AddTaskDialogFragment.newInstance(userId, listener)
-                : AddTaskDialogFragment.newEditInstance(userId, task, listener);
-        fragment.show(getSupportFragmentManager(), "task_form");
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        intent.putExtra("userId", userId);
+        if (task != null) {
+            intent.putExtra("task", task);
+        }
+        startActivity(intent);
     }
 
     private void openScreen(Class<?> destination) {

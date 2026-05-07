@@ -21,6 +21,12 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".AddScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".CalendarActivity"
             android:exported="false" />
         <activity

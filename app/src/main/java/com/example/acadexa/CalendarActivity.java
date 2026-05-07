@@ -127,11 +127,14 @@ public class CalendarActivity extends AppCompatActivity implements ScheduleAdapt
     }
 
     private void openScheduleForm(Schedule schedule) {
-        AddScheduleDialogFragment.OnScheduleSavedListener listener = savedSchedule -> loadSchedulesForSelectedDay();
-        AddScheduleDialogFragment fragment = schedule == null
-                ? AddScheduleDialogFragment.newInstance(userId, listener)
-                : AddScheduleDialogFragment.newEditInstance(userId, schedule, listener);
-        fragment.show(getSupportFragmentManager(), "schedule_form");
+        Intent intent = new Intent(this, AddScheduleActivity.class);
+        intent.putExtra("userId", userId);
+        if (schedule != null) {
+            intent.putExtra("schedule", schedule);
+        } else {
+            intent.putExtra("initialDay", new SimpleDateFormat("EEEE", Locale.getDefault()).format(new Date(selectedDateMillis)));
+        }
+        startActivity(intent);
     }
 
     private void openScreen(Class<?> destination) {

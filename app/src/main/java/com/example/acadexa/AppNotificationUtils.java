@@ -59,7 +59,10 @@ public final class AppNotificationUtils {
                 .setContentText(message)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOngoing(false)
                 .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setContentIntent(pendingIntent);
 
         NotificationManagerCompat.from(context).notify(notificationId, builder.build());

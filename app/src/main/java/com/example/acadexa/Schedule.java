@@ -25,9 +25,9 @@ public class Schedule implements Serializable {
 
     public String subject;
 
-    public String startTime; // format: "HH:mm"
+    public String startTime; // format: "h:mm a" or legacy "HH:mm"
 
-    public String endTime; // format: "HH:mm"
+    public String endTime; // format: "h:mm a" or legacy "HH:mm"
 
     public String day; // "Monday", "Tuesday", etc. or date format
 
@@ -62,18 +62,18 @@ public class Schedule implements Serializable {
         }
 
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            Date parsed = sdf.parse(startTime);
-            if (parsed == null) {
+            int[] timeParts = TimeFormatUtils.parseToHourMinute(startTime);
+            if (timeParts == null) {
                 return -1;
             }
 
             Calendar now = Calendar.getInstance();
             Calendar start = Calendar.getInstance();
-            start.setTime(parsed);
             start.set(Calendar.YEAR, now.get(Calendar.YEAR));
             start.set(Calendar.MONTH, now.get(Calendar.MONTH));
             start.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+            start.set(Calendar.HOUR_OF_DAY, timeParts[0]);
+            start.set(Calendar.MINUTE, timeParts[1]);
             start.set(Calendar.SECOND, 0);
             start.set(Calendar.MILLISECOND, 0);
             return start.getTimeInMillis();
@@ -99,9 +99,8 @@ public class Schedule implements Serializable {
 
     public boolean isScheduledSoon() {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            Date parsedTime = sdf.parse(startTime);
-            if (parsedTime == null) {
+            int[] timeParts = TimeFormatUtils.parseToHourMinute(startTime);
+            if (timeParts == null) {
                 return false;
             }
 
@@ -110,16 +109,22 @@ public class Schedule implements Serializable {
             tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
             Calendar scheduleToday = Calendar.getInstance();
-            scheduleToday.setTime(parsedTime);
             scheduleToday.set(Calendar.YEAR, now.get(Calendar.YEAR));
             scheduleToday.set(Calendar.MONTH, now.get(Calendar.MONTH));
             scheduleToday.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+            scheduleToday.set(Calendar.HOUR_OF_DAY, timeParts[0]);
+            scheduleToday.set(Calendar.MINUTE, timeParts[1]);
+            scheduleToday.set(Calendar.SECOND, 0);
+            scheduleToday.set(Calendar.MILLISECOND, 0);
 
             Calendar scheduleTomorrow = Calendar.getInstance();
-            scheduleTomorrow.setTime(parsedTime);
             scheduleTomorrow.set(Calendar.YEAR, tomorrow.get(Calendar.YEAR));
             scheduleTomorrow.set(Calendar.MONTH, tomorrow.get(Calendar.MONTH));
             scheduleTomorrow.set(Calendar.DAY_OF_MONTH, tomorrow.get(Calendar.DAY_OF_MONTH));
+            scheduleTomorrow.set(Calendar.HOUR_OF_DAY, timeParts[0]);
+            scheduleTomorrow.set(Calendar.MINUTE, timeParts[1]);
+            scheduleTomorrow.set(Calendar.SECOND, 0);
+            scheduleTomorrow.set(Calendar.MILLISECOND, 0);
 
             String todayName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(now.getTime());
             String tomorrowName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(tomorrow.getTime());

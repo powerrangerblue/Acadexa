@@ -233,7 +233,7 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
                     }
 
                     if (nextClass != null) {
-                        nextClassText.setText(nextClass.subject + " • starts at " + nextClass.startTime);
+                        nextClassText.setText(nextClass.subject + " • starts at " + TimeFormatUtils.formatForDisplay(nextClass.startTime));
                     } else if (!scheduleList.isEmpty()) {
                         nextClassText.setText("All classes for today are complete.");
                     } else {

@@ -63,8 +63,8 @@ public class AddScheduleActivity extends AppCompatActivity {
         // If editing, populate fields
         if (existingSchedule != null) {
             subjectInput.setText(existingSchedule.subject);
-            startTimeInput.setText(existingSchedule.startTime);
-            endTimeInput.setText(existingSchedule.endTime);
+            startTimeInput.setText(TimeFormatUtils.formatForDisplay(existingSchedule.startTime));
+            endTimeInput.setText(TimeFormatUtils.formatForDisplay(existingSchedule.endTime));
             for (int i = 0; i < DAYS.length; i++) {
                 if (DAYS[i].equals(existingSchedule.day)) {
                     daySpinner.setSelection(i);
@@ -93,12 +93,12 @@ public class AddScheduleActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 (view, hourOfDay, minute) -> {
-                    String timeStr = String.format("%02d:%02d", hourOfDay, minute);
+                    String timeStr = TimeFormatUtils.formatForDisplay(hourOfDay, minute);
                     timeInput.setText(timeStr);
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                true);
+                false);
         timePickerDialog.show();
     }
 
@@ -122,28 +122,35 @@ public class AddScheduleActivity extends AppCompatActivity {
             scheduleRepository.updateSchedule(schedule, new ScheduleRepository.ScheduleCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    Toast.makeText(AddScheduleActivity.this, "Schedule updated!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
+                    runOnUiThread(() -> {
+                        ReminderAlarmScheduler.scheduleScheduleReminder(AddScheduleActivity.this, schedule);
+                        Toast.makeText(AddScheduleActivity.this, "Schedule updated!", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
                 }
             });
         } else {
             scheduleRepository.addSchedule(schedule, new ScheduleRepository.ScheduleCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    Toast.makeText(AddScheduleActivity.this, "Schedule added!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
+                    schedule.id = result;
+                    runOnUiThread(() -> {
+                        ReminderAlarmScheduler.scheduleScheduleReminder(AddScheduleActivity.this, schedule);
+                        Toast.makeText(AddScheduleActivity.this, "Schedule added!", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
                 }
             });
         }

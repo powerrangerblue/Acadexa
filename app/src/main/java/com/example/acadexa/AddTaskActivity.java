@@ -115,28 +115,35 @@ public class AddTaskActivity extends AppCompatActivity {
             taskRepository.updateTask(task, new TaskRepository.TaskCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    Toast.makeText(AddTaskActivity.this, "Task updated!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
+                    runOnUiThread(() -> {
+                        ReminderAlarmScheduler.scheduleTaskReminder(AddTaskActivity.this, task);
+                        Toast.makeText(AddTaskActivity.this, "Task updated!", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(AddTaskActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(AddTaskActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
                 }
             });
         } else {
             taskRepository.addTask(task, new TaskRepository.TaskCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    Toast.makeText(AddTaskActivity.this, "Task added!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
+                    task.id = result;
+                    runOnUiThread(() -> {
+                        ReminderAlarmScheduler.scheduleTaskReminder(AddTaskActivity.this, task);
+                        Toast.makeText(AddTaskActivity.this, "Task added!", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(AddTaskActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> Toast.makeText(AddTaskActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
                 }
             });
         }

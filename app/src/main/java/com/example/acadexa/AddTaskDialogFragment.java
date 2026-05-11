@@ -133,28 +133,68 @@ public class AddTaskDialogFragment extends DialogFragment {
             taskRepository.updateTask(task, new TaskRepository.TaskCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    if (listener != null) listener.onTaskSaved(task);
-                    Toast.makeText(getContext(), "Task updated!", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                    androidx.fragment.app.FragmentActivity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+
+                    activity.runOnUiThread(() -> {
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        if (listener != null) listener.onTaskSaved(task);
+                        Toast.makeText(requireContext(), "Task updated!", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                    androidx.fragment.app.FragmentActivity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+
+                    activity.runOnUiThread(() -> {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         } else {
             taskRepository.addTask(task, new TaskRepository.TaskCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    if (listener != null) listener.onTaskSaved(task);
-                    Toast.makeText(getContext(), "Task added!", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                    androidx.fragment.app.FragmentActivity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+
+                    activity.runOnUiThread(() -> {
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        if (listener != null) listener.onTaskSaved(task);
+                        Toast.makeText(requireContext(), "Task added!", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                    androidx.fragment.app.FragmentActivity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+
+                    activity.runOnUiThread(() -> {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }

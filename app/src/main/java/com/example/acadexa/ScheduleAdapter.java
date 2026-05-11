@@ -63,7 +63,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         void bind(Schedule schedule) {
             subjectView.setText(schedule.subject);
-            timeView.setText(schedule.startTime + " - " + schedule.endTime);
+            timeView.setText(TimeFormatUtils.formatForDisplay(schedule.startTime) + " - " + TimeFormatUtils.formatForDisplay(schedule.endTime));
             dayView.setText(schedule.day);
 
             // Highlight current/upcoming class

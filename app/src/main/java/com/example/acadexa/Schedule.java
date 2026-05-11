@@ -96,4 +96,52 @@ public class Schedule implements Serializable {
         long diff = startMillis - System.currentTimeMillis();
         return diff > 0 && diff <= minutes * 60 * 1000;
     }
+
+    public boolean isScheduledSoon() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Date parsedTime = sdf.parse(startTime);
+            if (parsedTime == null) {
+                return false;
+            }
+
+            Calendar now = Calendar.getInstance();
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+            Calendar scheduleToday = Calendar.getInstance();
+            scheduleToday.setTime(parsedTime);
+            scheduleToday.set(Calendar.YEAR, now.get(Calendar.YEAR));
+            scheduleToday.set(Calendar.MONTH, now.get(Calendar.MONTH));
+            scheduleToday.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+
+            Calendar scheduleTomorrow = Calendar.getInstance();
+            scheduleTomorrow.setTime(parsedTime);
+            scheduleTomorrow.set(Calendar.YEAR, tomorrow.get(Calendar.YEAR));
+            scheduleTomorrow.set(Calendar.MONTH, tomorrow.get(Calendar.MONTH));
+            scheduleTomorrow.set(Calendar.DAY_OF_MONTH, tomorrow.get(Calendar.DAY_OF_MONTH));
+
+            String todayName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(now.getTime());
+            String tomorrowName = new SimpleDateFormat("EEEE", Locale.getDefault()).format(tomorrow.getTime());
+
+            long nowMillis = now.getTimeInMillis();
+            long alertWindow = 30 * 60 * 1000;
+
+            if (day.equals(todayName)) {
+                long diff = scheduleToday.getTimeInMillis() - nowMillis;
+                if (diff > 0 && diff <= alertWindow) {
+                    return true;
+                }
+            } else if (day.equals(tomorrowName)) {
+                long diff = scheduleTomorrow.getTimeInMillis() - nowMillis;
+                if (diff > 0 && diff <= alertWindow) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

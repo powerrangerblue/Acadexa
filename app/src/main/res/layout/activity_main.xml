@@ -113,7 +113,8 @@
                             android:layout_height="wrap_content"
                             android:autofillHints="username,emailAddress"
                             android:inputType="textEmailAddress"
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            android:textColor="@color/textPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,7 +138,8 @@
                             android:layout_height="wrap_content"
                             android:autofillHints="password"
                             android:inputType="textPassword"
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            android:textColor="@color/textPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 

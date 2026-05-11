@@ -27,16 +27,21 @@ public class NotificationCheckerWorker extends Worker {
             return Result.success();
         }
 
-        AppDatabase database = AppDatabase.getInstance(context);
-        User user = database.userDao().getUserById(userId);
-        if (user == null) {
-            return Result.success();
-        }
+        try {
+            AppDatabase database = AppDatabase.getInstance(context);
+            User user = database.userDao().getUserById(userId);
+            if (user == null) {
+                return Result.retry();
+            }
 
-        long now = System.currentTimeMillis();
-        checkTasks(database, userId, now);
-        checkSchedules(database, userId, now);
-        return Result.success();
+            long now = System.currentTimeMillis();
+            checkTasks(database, userId, now);
+            checkSchedules(database, userId, now);
+            return Result.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.retry();
+        }
     }
 
     private void checkTasks(AppDatabase database, int userId, long now) {
@@ -62,7 +67,7 @@ public class NotificationCheckerWorker extends Worker {
         List<Schedule> schedules = database.scheduleDao().getSchedulesByUser(userId);
         NotificationDao notificationDao = database.notificationDao();
         for (Schedule schedule : schedules) {
-            if (!schedule.isStartingWithinMinutes(30)) {
+            if (!schedule.isScheduledSoon() && !schedule.isStartingWithinMinutes(30)) {
                 continue;
             }
 

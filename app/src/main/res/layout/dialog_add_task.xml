@@ -35,7 +35,8 @@
                 android:hint="Task Title"
                 android:inputType="text"
                 android:minHeight="56dp"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +55,8 @@
                 android:inputType="textMultiLine"
                 android:minLines="3"
                 android:minHeight="96dp"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/textPrimary" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,7 +93,8 @@
                     android:focusable="false"
                     android:inputType="text"
                     android:minHeight="56dp"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="@color/textPrimary" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

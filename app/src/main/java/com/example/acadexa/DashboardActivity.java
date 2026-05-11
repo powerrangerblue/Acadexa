@@ -1,6 +1,9 @@
 package com.example.acadexa;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -9,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DashboardActivity extends AppCompatActivity implements TaskAdapter.OnTaskActionListener, ScheduleAdapter.OnScheduleActionListener, NotificationAdapter.OnNotificationActionListener {
+    private static final int PERMISSION_REQUEST_CODE = 123;
     private AuthRepository authRepository;
     private TaskRepository taskRepository;
     private ScheduleRepository scheduleRepository;
@@ -70,7 +76,9 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
         }
 
         userId = currentUser.id;
+        requestNotificationPermission();
         NotificationScheduler.schedule(this);
+        AppNotificationUtils.ensureChannel(this);
 
         bindViews();
         setupLists();
@@ -82,6 +90,41 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
     protected void onResume() {
         super.onResume();
         refreshDashboard();
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+                triggerNotificationCheck();
+            } else {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void triggerNotificationCheck() {
+        new Thread(() -> {
+            try {
+                NotificationCheckerWorker worker = new NotificationCheckerWorker(this, null);
+                worker.doWork();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void bindViews() {
@@ -130,11 +173,6 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
             startActivity(new Intent(DashboardActivity.this, MainActivity.class));
             finishAffinity();
         });
-
-        findViewById(R.id.addTaskButton).setOnClickListener(v -> openTaskForm(null));
-        findViewById(R.id.addScheduleButton).setOnClickListener(v -> openScheduleForm(null));
-        findViewById(R.id.viewNotificationsButton).setOnClickListener(v -> openScreen(NotificationPanelActivity.class));
-        findViewById(R.id.refreshDashboardButton).setOnClickListener(v -> refreshDashboard());
 
         findViewById(R.id.dashboardNavButton).setOnClickListener(v -> refreshDashboard());
         findViewById(R.id.dashboardTasksButton).setOnClickListener(v -> openScreen(TasksActivity.class));

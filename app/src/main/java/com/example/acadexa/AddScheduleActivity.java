@@ -3,16 +3,20 @@ package com.example.acadexa;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AddScheduleActivity extends AppCompatActivity {
     private static final String[] DAYS = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -20,7 +24,7 @@ public class AddScheduleActivity extends AppCompatActivity {
     private EditText subjectInput;
     private EditText startTimeInput;
     private EditText endTimeInput;
-    private Spinner daySpinner;
+    private ChipGroup dayChipGroup;
     private Button selectStartTimeBtn;
     private Button selectEndTimeBtn;
     private Button saveBtn;
@@ -40,7 +44,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         subjectInput = findViewById(R.id.subjectInput);
         startTimeInput = findViewById(R.id.startTimeInput);
         endTimeInput = findViewById(R.id.endTimeInput);
-        daySpinner = findViewById(R.id.daySpinner);
+        dayChipGroup = findViewById(R.id.dayChipGroup);
         selectStartTimeBtn = findViewById(R.id.selectStartTimeBtn);
         selectEndTimeBtn = findViewById(R.id.selectEndTimeBtn);
         saveBtn = findViewById(R.id.saveScheduleBtn);
@@ -48,11 +52,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
 
         scheduleRepository = new ScheduleRepository(this);
-
-        // Setup day spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, DAYS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySpinner.setAdapter(adapter);
 
         // Get intent data
         Intent intent = getIntent();
@@ -65,20 +64,10 @@ public class AddScheduleActivity extends AppCompatActivity {
             subjectInput.setText(existingSchedule.subject);
             startTimeInput.setText(TimeFormatUtils.formatForDisplay(existingSchedule.startTime));
             endTimeInput.setText(TimeFormatUtils.formatForDisplay(existingSchedule.endTime));
-            for (int i = 0; i < DAYS.length; i++) {
-                if (DAYS[i].equals(existingSchedule.day)) {
-                    daySpinner.setSelection(i);
-                    break;
-                }
-            }
+            checkDayChip(existingSchedule.day);
             saveBtn.setText("Update Schedule");
         } else if (initialDay != null) {
-            for (int i = 0; i < DAYS.length; i++) {
-                if (DAYS[i].equals(initialDay)) {
-                    daySpinner.setSelection(i);
-                    break;
-                }
-            }
+            checkDayChip(initialDay);
         }
 
         // Set click listeners
@@ -87,6 +76,16 @@ public class AddScheduleActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(v -> saveSchedule());
         cancelBtn.setOnClickListener(v -> finish());
         backBtn.setOnClickListener(v -> finish());
+    }
+
+    private void checkDayChip(String day) {
+        for (int i = 0; i < dayChipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) dayChipGroup.getChildAt(i);
+            if (chip.getText().toString().equalsIgnoreCase(day)) {
+                chip.setChecked(true);
+                break;
+            }
+        }
     }
 
     private void showTimePicker(EditText timeInput) {
@@ -106,52 +105,87 @@ public class AddScheduleActivity extends AppCompatActivity {
         String subject = subjectInput.getText().toString().trim();
         String startTime = startTimeInput.getText().toString().trim();
         String endTime = endTimeInput.getText().toString().trim();
-        String day = daySpinner.getSelectedItem().toString();
+        
+        List<String> selectedDays = new ArrayList<>();
+        for (int i = 0; i < dayChipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) dayChipGroup.getChildAt(i);
+            if (chip.isChecked()) {
+                selectedDays.add(chip.getText().toString());
+            }
+        }
 
-        if (subject.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        if (subject.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || selectedDays.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields and select at least one day", Toast.LENGTH_SHORT).show();
             return;
         }
 
         long now = System.currentTimeMillis();
-        Schedule schedule = new Schedule(userId, subject, startTime, endTime, day, 
-                existingSchedule != null ? existingSchedule.createdAt : now, now);
+        AtomicInteger completedTasks = new AtomicInteger(0);
+        int totalTasks = selectedDays.size();
 
         if (existingSchedule != null) {
+            // Update the existing schedule for the first selected day
+            String firstDay = selectedDays.get(0);
+            Schedule schedule = new Schedule(userId, subject, startTime, endTime, firstDay, existingSchedule.createdAt, now);
             schedule.id = existingSchedule.id;
+            
             scheduleRepository.updateSchedule(schedule, new ScheduleRepository.ScheduleCallback() {
                 @Override
                 public void onSuccess(int result) {
-                    runOnUiThread(() -> {
-                        ReminderAlarmScheduler.scheduleScheduleReminder(AddScheduleActivity.this, schedule);
-                        Toast.makeText(AddScheduleActivity.this, "Schedule updated!", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    });
+                    ReminderAlarmScheduler.scheduleScheduleReminder(getApplicationContext(), schedule);
+                    checkCompletion(completedTasks, totalTasks);
                 }
 
                 @Override
                 public void onError(String error) {
-                    runOnUiThread(() -> Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
+                    checkCompletion(completedTasks, totalTasks);
                 }
             });
-        } else {
-            scheduleRepository.addSchedule(schedule, new ScheduleRepository.ScheduleCallback() {
-                @Override
-                public void onSuccess(int result) {
-                    schedule.id = result;
-                    runOnUiThread(() -> {
-                        ReminderAlarmScheduler.scheduleScheduleReminder(AddScheduleActivity.this, schedule);
-                        Toast.makeText(AddScheduleActivity.this, "Schedule added!", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                        finish();
-                    });
-                }
 
-                @Override
-                public void onError(String error) {
-                    runOnUiThread(() -> Toast.makeText(AddScheduleActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show());
-                }
+            // If more days were selected, add them as new schedules
+            for (int i = 1; i < selectedDays.size(); i++) {
+                Schedule newSched = new Schedule(userId, subject, startTime, endTime, selectedDays.get(i), now, now);
+                scheduleRepository.addSchedule(newSched, new ScheduleRepository.ScheduleCallback() {
+                    @Override
+                    public void onSuccess(int result) {
+                        newSched.id = result;
+                        ReminderAlarmScheduler.scheduleScheduleReminder(getApplicationContext(), newSched);
+                        checkCompletion(completedTasks, totalTasks);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        checkCompletion(completedTasks, totalTasks);
+                    }
+                });
+            }
+        } else {
+            // Add new schedules for all selected days
+            for (String day : selectedDays) {
+                Schedule schedule = new Schedule(userId, subject, startTime, endTime, day, now, now);
+                scheduleRepository.addSchedule(schedule, new ScheduleRepository.ScheduleCallback() {
+                    @Override
+                    public void onSuccess(int result) {
+                        schedule.id = result;
+                        ReminderAlarmScheduler.scheduleScheduleReminder(getApplicationContext(), schedule);
+                        checkCompletion(completedTasks, totalTasks);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        checkCompletion(completedTasks, totalTasks);
+                    }
+                });
+            }
+        }
+    }
+
+    private void checkCompletion(AtomicInteger completedTasks, int totalTasks) {
+        if (completedTasks.incrementAndGet() == totalTasks) {
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Schedule(s) saved successfully!", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
             });
         }
     }

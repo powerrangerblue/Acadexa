@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@color/hub_background">
 
     <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@android:color/white"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_hub_header"
+        android:paddingTop="44dp"
+        android:paddingBottom="18dp"
+        android:paddingHorizontal="8dp"
         android:elevation="4dp">
 
         <ImageView
@@ -21,7 +24,7 @@
             android:layout_centerVertical="true"
             android:padding="12dp"
             android:src="@drawable/ic_back"
-            android:tint="@color/textPrimary"
+            app:tint="@color/white"
             android:contentDescription="@string/back" />
 
         <TextView
@@ -30,17 +33,11 @@
             android:layout_toEndOf="@id/backBtn"
             android:layout_centerVertical="true"
             android:text="Add Schedule"
-            android:textColor="@color/textPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium" />
 
     </RelativeLayout>
-
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/cardStroke" />
 
     <!-- Content -->
     <ScrollView
@@ -54,174 +51,226 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp">
+            android:padding="20dp">
 
-            <!-- Subject Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subject Name"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                app:boxBackgroundMode="outline"
-                app:hintAnimationEnabled="true"
-                app:boxStrokeColor="@color/cardStroke"
-                app:boxStrokeWidthFocused="2dp">
+                app:cardBackgroundColor="@color/hub_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/hub_divider"
+                app:strokeWidth="1dp">
 
-                <EditText
-                    android:id="@+id/subjectInput"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter subject name"
-                    android:inputType="text"
-                    android:minHeight="56dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecondary" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <!-- Subject Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SUBJECT NAME"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
 
-            <!-- Day of Week Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day of Week"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/cardStroke"
-                app:boxStrokeWidthFocused="2dp">
-
-                <Spinner
-                    android:id="@+id/daySpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="56dp"
-                    android:textSize="16sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Start Time Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start Time"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="28dp"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    app:boxBackgroundMode="outline"
-                    app:hintAnimationEnabled="true"
-                    app:boxStrokeColor="@color/cardStroke"
-                    app:boxStrokeWidthFocused="2dp">
-
-                    <EditText
-                        android:id="@+id/startTimeInput"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/SchoolHub.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="HH:mm"
-                        android:inputType="time"
-                        android:minHeight="56dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecondary" />
+                        android:layout_marginBottom="20dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <EditText
+                            android:id="@+id/subjectInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter subject name"
+                            android:inputType="text"
+                            android:minHeight="56dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/hub_text_primary"
+                            android:textColorHint="@color/hub_text_secondary" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/selectStartTimeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:minWidth="110dp"
-                    android:text="Pick"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    style="@style/Widget.MaterialComponents.Button" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                    <!-- Day of Week Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DAYS OF WEEK"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
 
-            <!-- End Time Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="End Time"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="32dp"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    app:boxBackgroundMode="outline"
-                    app:hintAnimationEnabled="true"
-                    app:boxStrokeColor="@color/cardStroke"
-                    app:boxStrokeWidthFocused="2dp">
-
-                    <EditText
-                        android:id="@+id/endTimeInput"
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="HH:mm"
-                        android:inputType="time"
-                        android:minHeight="56dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecondary" />
+                        android:layout_marginBottom="20dp"
+                        android:scrollbars="none">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/dayChipGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="false">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/selectEndTimeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:minWidth="110dp"
-                    android:text="Pick"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    style="@style/Widget.MaterialComponents.Button" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipMonday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Monday" />
 
-            </LinearLayout>
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipTuesday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Tuesday" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipWednesday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Wednesday" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipThursday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Thursday" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFriday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Friday" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSaturday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Saturday" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSunday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:text="Sunday" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </HorizontalScrollView>
+
+                    <!-- Start Time Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="START TIME"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/SchoolHub.TextInput"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp">
+
+                            <EditText
+                                android:id="@+id/startTimeInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="HH:mm"
+                                android:inputType="time"
+                                android:minHeight="56dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/hub_text_primary"
+                                android:textColorHint="@color/hub_text_secondary" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/selectStartTimeBtn"
+                            style="@style/SchoolHub.Button.Tonal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="56dp"
+                            android:minWidth="100dp"
+                            android:text="Pick" />
+
+                    </LinearLayout>
+
+                    <!-- End Time Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="END TIME"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/SchoolHub.TextInput"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp">
+
+                            <EditText
+                                android:id="@+id/endTimeInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="HH:mm"
+                                android:inputType="time"
+                                android:minHeight="56dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/hub_text_primary"
+                                android:textColorHint="@color/hub_text_secondary" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/selectEndTimeBtn"
+                            style="@style/SchoolHub.Button.Tonal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="56dp"
+                            android:minWidth="100dp"
+                            android:text="Pick" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -232,33 +281,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="24dp"
+        android:padding="20dp"
         android:gravity="end"
-        android:spacing="12dp"
-        android:background="@android:color/white"
-        android:elevation="4dp">
+        android:background="@color/hub_surface"
+        android:elevation="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelScheduleBtn"
+            style="@style/SchoolHub.Button.Outlined"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="12dp"
-            android:text="Cancel"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/textPrimary"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:text="Cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveScheduleBtn"
+            style="@style/SchoolHub.Button"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            style="@style/Widget.MaterialComponents.Button" />
+            android:text="Save" />
 
     </LinearLayout>
 

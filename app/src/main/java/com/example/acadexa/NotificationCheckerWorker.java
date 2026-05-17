@@ -45,6 +45,7 @@ public class NotificationCheckerWorker extends Worker {
     }
 
     private void checkTasks(AppDatabase database, int userId, long now) {
+        Context context = getApplicationContext();
         List<Task> tasks = database.taskDao().getPendingTasks(userId);
         NotificationDao notificationDao = database.notificationDao();
         for (Task task : tasks) {
@@ -52,18 +53,20 @@ public class NotificationCheckerWorker extends Worker {
                 continue;
             }
 
-            String message = "Task \"" + task.title + "\" is due within 30 minutes.";
-            if (notificationDao.getRecentNotificationCount(userId, "task", message, now - DEDUPE_WINDOW_MILLIS) > 0) {
+            if (!AppNotificationUtils.shouldShowNotification(context, "task", task.id)) {
                 continue;
             }
 
-            Notification notification = new Notification(userId, message, "task", false, now);
+            String baseMessage = "Task \"" + task.title + "\" is due within 30 minutes.";
+            String catchyMessage = AppNotificationUtils.formatCatchyMessage(baseMessage);
+            Notification notification = new Notification(userId, catchyMessage, "task", false, now);
             long insertedId = notificationDao.insertNotification(notification);
-            AppNotificationUtils.show(getApplicationContext(), "Task reminder", message, (int) insertedId);
+            AppNotificationUtils.show(context, "Task reminder", catchyMessage, (int) insertedId);
         }
     }
 
     private void checkSchedules(AppDatabase database, int userId, long now) {
+        Context context = getApplicationContext();
         List<Schedule> schedules = database.scheduleDao().getSchedulesByUser(userId);
         NotificationDao notificationDao = database.notificationDao();
         for (Schedule schedule : schedules) {
@@ -71,14 +74,15 @@ public class NotificationCheckerWorker extends Worker {
                 continue;
             }
 
-            String message = "Class \"" + schedule.subject + "\" starts at " + schedule.startTime + ".";
-            if (notificationDao.getRecentNotificationCount(userId, "schedule", message, now - DEDUPE_WINDOW_MILLIS) > 0) {
+            if (!AppNotificationUtils.shouldShowNotification(context, "schedule", schedule.id)) {
                 continue;
             }
 
-            Notification notification = new Notification(userId, message, "schedule", false, now);
+            String baseMessage = "Class \"" + schedule.subject + "\" starts at " + schedule.startTime + ".";
+            String catchyMessage = AppNotificationUtils.formatCatchyMessage(baseMessage);
+            Notification notification = new Notification(userId, catchyMessage, "schedule", false, now);
             long insertedId = notificationDao.insertNotification(notification);
-            AppNotificationUtils.show(getApplicationContext(), "Class reminder", message, (int) insertedId);
+            AppNotificationUtils.show(context, "Class reminder", catchyMessage, (int) insertedId);
         }
     }
 }

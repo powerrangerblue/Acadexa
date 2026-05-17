@@ -29,7 +29,7 @@ public interface NotificationDao {
     @Query("SELECT COUNT(*) FROM notifications WHERE userId = :userId AND isRead = 0")
     int getUnreadNotificationCount(int userId);
 
-    @Query("SELECT COUNT(*) FROM notifications WHERE userId = :userId AND type = :type AND message = :message AND createdAt >= :since")
+    @Query("SELECT COUNT(*) FROM notifications WHERE userId = :userId AND type = :type AND message LIKE '%' || :message || '%' AND createdAt >= :since")
     int getRecentNotificationCount(int userId, String type, String message, long since);
 
     @Query("UPDATE notifications SET isRead = 1 WHERE userId = :userId AND id = :notificationId")

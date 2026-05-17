@@ -69,7 +69,7 @@ public class NotificationCheckerService extends Service {
                     long timeUntilDue = task.dueDate - now;
                     // 30 minutes before due date
                     if (timeUntilDue > 0 && timeUntilDue < 30 * 60 * 1000) {
-                        createNotification(user.id, "Task '" + task.title + "' is due soon!", "task");
+                        createNotification(user.id, "Task '" + task.title + "' is due soon!", "task", task.id);
                     }
                 }
             }
@@ -85,8 +85,8 @@ public class NotificationCheckerService extends Service {
             @Override
             public void onSuccess(List<Schedule> schedules) {
                 for (Schedule schedule : schedules) {
-                    if (schedule.isUpcoming()) {
-                        createNotification(user.id, "Your class '" + schedule.subject + "' is coming up at " + schedule.startTime, "schedule");
+                    if (schedule.isStartingWithinMinutes(30)) {
+                        createNotification(user.id, "Your class '" + schedule.subject + "' is coming up at " + schedule.startTime, "schedule", schedule.id);
                     }
                 }
             }
@@ -98,12 +98,18 @@ public class NotificationCheckerService extends Service {
         });
     }
 
-    private void createNotification(int userId, String message, String type) {
-        Notification notification = new Notification(userId, message, type, false, System.currentTimeMillis());
+    private void createNotification(int userId, String message, String type, int itemId) {
+        if (!AppNotificationUtils.shouldShowNotification(NotificationCheckerService.this, type, itemId)) {
+            return;
+        }
+
+        String catchyMessage = AppNotificationUtils.formatCatchyMessage(message);
+        Notification notification = new Notification(userId, catchyMessage, type, false, System.currentTimeMillis());
         notificationRepository.addNotification(notification, new NotificationRepository.NotificationCallback() {
             @Override
             public void onSuccess(int result) {
-                Log.d(TAG, "Notification created: " + message);
+                Log.d(TAG, "Notification created: " + catchyMessage);
+                AppNotificationUtils.show(NotificationCheckerService.this, "Reminder", catchyMessage, result);
             }
 
             @Override

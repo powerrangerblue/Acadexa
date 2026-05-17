@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import java.util.Calendar;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -18,7 +20,50 @@ public final class AppNotificationUtils {
     private static final String CHANNEL_NAME = "Acadexa Alerts";
     private static final String CHANNEL_DESCRIPTION = "Academic reminders and dashboard alerts";
 
+    private static final String[] MOTIVATIONS = {
+        "You've got this! \uD83D\uDCAA",
+        "Make today amazing! \u2728",
+        "Stay focused and conquer the day!",
+        "Believe in yourself, you're doing great!",
+        "One step at a time, you're unstoppable! \uD83D\uDE80",
+        "Shine bright and have a wonderful day!",
+        "Keep up the great work! \uD83C\uDF1F"
+    };
+
     private AppNotificationUtils() {
+    }
+
+    public static String formatCatchyMessage(String baseMessage) {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        String greeting;
+        if (hour >= 0 && hour < 12) {
+            greeting = "Good Morning \u2600\uFE0F";
+        } else if (hour >= 12 && hour < 17) {
+            greeting = "Good Afternoon \uD83C\uDF1E";
+        } else {
+            greeting = "Good Evening \uD83C\uDF11";
+        }
+
+        String motivation = MOTIVATIONS[(int) (Math.random() * MOTIVATIONS.length)];
+
+        return greeting + "! " + baseMessage + " " + motivation;
+    }
+
+    public static boolean shouldShowNotification(Context context, String type, int itemId) {
+        android.content.SharedPreferences prefs = context.getSharedPreferences("NotificationDedupe", Context.MODE_PRIVATE);
+        String key = type + "_" + itemId;
+        long lastShown = prefs.getLong(key, 0);
+        long now = System.currentTimeMillis();
+        
+        // 45 minutes deduplication window
+        if (now - lastShown < 45L * 60L * 1000L) {
+            return false;
+        }
+        
+        prefs.edit().putLong(key, now).apply();
+        return true;
     }
 
     public static void ensureChannel(Context context) {

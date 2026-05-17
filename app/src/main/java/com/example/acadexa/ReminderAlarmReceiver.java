@@ -28,9 +28,12 @@ public class ReminderAlarmReceiver extends BroadcastReceiver {
 
                 AppDatabase database = AppDatabase.getInstance(context.getApplicationContext());
                 long now = System.currentTimeMillis();
-                Notification notification = new Notification(userId, message, type == null ? "reminder" : type, false, now);
+                
+                String catchyMessage = AppNotificationUtils.formatCatchyMessage(message);
+
+                Notification notification = new Notification(userId, catchyMessage, type == null ? "reminder" : type, false, now);
                 long insertedId = database.notificationDao().insertNotification(notification);
-                AppNotificationUtils.show(context, title, message, (int) insertedId);
+                AppNotificationUtils.show(context, title, catchyMessage, (int) insertedId);
             } finally {
                 pendingResult.finish();
             }

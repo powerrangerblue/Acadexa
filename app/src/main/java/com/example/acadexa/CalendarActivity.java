@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,6 +79,25 @@ public class CalendarActivity extends AppCompatActivity implements ScheduleAdapt
         findViewById(R.id.calendarTasksButton).setOnClickListener(v -> openScreen(TasksActivity.class));
         findViewById(R.id.calendarProfileButton).setOnClickListener(v -> openScreen(ProfileActivity.class));
         findViewById(R.id.calendarNotificationsButton).setOnClickListener(v -> openScreen(NotificationPanelActivity.class));
+
+        BottomNavigationView bottomNav = findViewById(R.id.calendarBottomNav);
+        bottomNav.setSelectedItemId(R.id.nav_calendar);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                openScreen(DashboardActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_tasks) {
+                openScreen(TasksActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                openScreen(ProfileActivity.class);
+                return true;
+            }
+            return false;
+        });
 
         selectedDateMillis = System.currentTimeMillis();
         updateSelectedDateLabels(selectedDateMillis);

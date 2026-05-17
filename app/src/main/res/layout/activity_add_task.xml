@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="@color/hub_background">
 
     <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@android:color/white"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_hub_header"
+        android:paddingTop="44dp"
+        android:paddingBottom="18dp"
+        android:paddingHorizontal="8dp"
         android:elevation="4dp">
 
         <ImageView
@@ -21,7 +24,7 @@
             android:layout_centerVertical="true"
             android:padding="12dp"
             android:src="@drawable/ic_back"
-            android:tint="@color/textPrimary"
+            app:tint="@color/white"
             android:contentDescription="@string/back" />
 
         <TextView
@@ -30,17 +33,11 @@
             android:layout_toEndOf="@id/backBtn"
             android:layout_centerVertical="true"
             android:text="Add New Task"
-            android:textColor="@color/textPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium" />
 
     </RelativeLayout>
-
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/cardStroke" />
 
     <!-- Content -->
     <ScrollView
@@ -54,130 +51,137 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp">
+            android:padding="20dp">
 
-            <!-- Task Title Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Task Title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                app:boxBackgroundMode="outline"
-                app:hintAnimationEnabled="true"
-                app:boxStrokeColor="@color/cardStroke"
-                app:boxStrokeWidthFocused="2dp">
+                app:cardBackgroundColor="@color/hub_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/hub_divider"
+                app:strokeWidth="1dp">
 
-                <EditText
-                    android:id="@+id/taskTitleInput"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter task title"
-                    android:inputType="text"
-                    android:minHeight="56dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecondary" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <!-- Task Title Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TASK TITLE"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
 
-            <!-- Description Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description (Optional)"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                app:boxBackgroundMode="outline"
-                app:hintAnimationEnabled="true"
-                app:boxStrokeColor="@color/cardStroke"
-                app:boxStrokeWidthFocused="2dp">
-
-                <EditText
-                    android:id="@+id/taskDescriptionInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Add task description"
-                    android:inputType="textMultiLine"
-                    android:minLines="4"
-                    android:minHeight="120dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/textPrimary"
-                    android:textColorHint="@color/textSecondary"
-                    android:gravity="top" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Due Date Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Due Date &amp; Time"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp"
-                android:letterSpacing="0.01" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="32dp"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    app:boxBackgroundMode="outline"
-                    app:hintAnimationEnabled="true"
-                    app:boxStrokeColor="@color/cardStroke"
-                    app:boxStrokeWidthFocused="2dp">
-
-                    <EditText
-                        android:id="@+id/taskDueDateInput"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/SchoolHub.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select date &amp; time"
-                        android:clickable="true"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:minHeight="56dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/textPrimary"
-                        android:textColorHint="@color/textSecondary" />
+                        android:layout_marginBottom="20dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <EditText
+                            android:id="@+id/taskTitleInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Enter task title"
+                            android:inputType="text"
+                            android:minHeight="56dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/hub_text_primary"
+                            android:textColorHint="@color/hub_text_secondary" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/selectDateBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:minWidth="110dp"
-                    android:text="Pick"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    style="@style/Widget.MaterialComponents.Button" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                    <!-- Description Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DESCRIPTION (OPTIONAL)"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/SchoolHub.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <EditText
+                            android:id="@+id/taskDescriptionInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Add task description"
+                            android:inputType="textMultiLine"
+                            android:minLines="4"
+                            android:minHeight="120dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/hub_text_primary"
+                            android:textColorHint="@color/hub_text_secondary"
+                            android:gravity="top" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Due Date Section -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DUE DATE &amp; TIME"
+                        android:textColor="@color/hub_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.08" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/SchoolHub.TextInput"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp">
+
+                            <EditText
+                                android:id="@+id/taskDueDateInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Select date &amp; time"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:inputType="text"
+                                android:minHeight="56dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/hub_text_primary"
+                                android:textColorHint="@color/hub_text_secondary" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/selectDateBtn"
+                            style="@style/SchoolHub.Button.Tonal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="56dp"
+                            android:minWidth="100dp"
+                            android:text="Pick" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -188,33 +192,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="24dp"
+        android:padding="20dp"
         android:gravity="end"
-        android:spacing="12dp"
-        android:background="@android:color/white"
-        android:elevation="4dp">
+        android:background="@color/hub_surface"
+        android:elevation="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelTaskBtn"
+            style="@style/SchoolHub.Button.Outlined"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="12dp"
-            android:text="Cancel"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/textPrimary"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:text="Cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveTaskBtn"
+            style="@style/SchoolHub.Button"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            style="@style/Widget.MaterialComponents.Button" />
+            android:text="Save" />
 
     </LinearLayout>
 

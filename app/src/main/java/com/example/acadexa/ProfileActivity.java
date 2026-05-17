@@ -3,8 +3,8 @@ package com.example.acadexa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -71,6 +71,26 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.profileTasksButton).setOnClickListener(v -> openScreen(TasksActivity.class));
         findViewById(R.id.profileCalendarButton).setOnClickListener(v -> openScreen(CalendarActivity.class));
         findViewById(R.id.profileNotificationsButton).setOnClickListener(v -> openScreen(NotificationPanelActivity.class));
+
+        BottomNavigationView bottomNav = findViewById(R.id.profileBottomNav);
+        bottomNav.setSelectedItemId(R.id.nav_profile);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                openScreen(DashboardActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_tasks) {
+                openScreen(TasksActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                openScreen(CalendarActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                return true;
+            }
+            return false;
+        });
+
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             authRepository.logout();
             startActivity(new Intent(ProfileActivity.this, MainActivity.class));

@@ -20,6 +20,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -178,6 +180,25 @@ public class DashboardActivity extends AppCompatActivity implements TaskAdapter.
         findViewById(R.id.dashboardTasksButton).setOnClickListener(v -> openScreen(TasksActivity.class));
         findViewById(R.id.dashboardCalendarButton).setOnClickListener(v -> openScreen(CalendarActivity.class));
         findViewById(R.id.dashboardProfileButton).setOnClickListener(v -> openScreen(ProfileActivity.class));
+
+        BottomNavigationView bottomNav = findViewById(R.id.dashboardBottomNav);
+        bottomNav.setSelectedItemId(R.id.nav_dashboard);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                return true;
+            } else if (itemId == R.id.nav_tasks) {
+                openScreen(TasksActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                openScreen(CalendarActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                openScreen(ProfileActivity.class);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void refreshDashboard() {

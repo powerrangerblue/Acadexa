@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,25 @@ public class TasksActivity extends AppCompatActivity implements TaskAdapter.OnTa
         findViewById(R.id.tasksCalendarButton).setOnClickListener(v -> openScreen(CalendarActivity.class));
         findViewById(R.id.tasksProfileButton).setOnClickListener(v -> openScreen(ProfileActivity.class));
         findViewById(R.id.tasksNotificationsButton).setOnClickListener(v -> openScreen(NotificationPanelActivity.class));
+
+        BottomNavigationView bottomNav = findViewById(R.id.tasksBottomNav);
+        bottomNav.setSelectedItemId(R.id.nav_tasks);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                openScreen(DashboardActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_tasks) {
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                openScreen(CalendarActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                openScreen(ProfileActivity.class);
+                return true;
+            }
+            return false;
+        });
 
         allFilterButton.setOnClickListener(v -> setFilter("all"));
         pendingFilterButton.setOnClickListener(v -> setFilter("pending"));

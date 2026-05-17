@@ -3,97 +3,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@color/hub_surface"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/hub_divider"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
+        <!-- Title -->
         <TextView
             android:id="@+id/taskTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task Title"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/hub_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
+        <!-- Description -->
         <TextView
             android:id="@+id/taskDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
-            android:textSize="12sp"
-            android:textColor="@color/textSecondary"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
             android:maxLines="2"
-            android:ellipsize="end" />
+            android:textColor="@color/hub_text_secondary"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/hub_divider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal">
 
+            <!-- Meta details -->
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/taskDueDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Due: Jan 1, 1:00 PM"
-                    android:textSize="11sp"
-                    android:textColor="@color/textSecondary" />
+                    android:textColor="@color/hub_text_hint"
+                    android:textSize="12sp" />
 
+                <!-- Status chip -->
                 <TextView
                     android:id="@+id/taskStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pending"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_chip_pending"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/hub_pending"
                     android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="2dp" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/completeTaskBtn"
+            <!-- Actions -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Complete"
-                android:textSize="10sp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/editTaskBtn"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="Edit"
-                android:layout_marginStart="4dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/completeTaskBtn"
+                    style="@style/SchoolHub.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:minHeight="36dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Complete"
+                    android:textSize="11sp" />
 
-            <ImageButton
-                android:id="@+id/deleteTaskBtn"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_delete"
-                android:contentDescription="Delete"
-                android:layout_marginStart="4dp" />
+                <ImageButton
+                    android:id="@+id/editTaskBtn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Edit"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:tint="@color/hub_text_secondary" />
+
+                <ImageButton
+                    android:id="@+id/deleteTaskBtn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Delete"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:tint="@color/hub_error" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

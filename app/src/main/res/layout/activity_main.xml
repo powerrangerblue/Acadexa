@@ -5,29 +5,57 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login_gradient"
+    android:background="@color/hub_background"
     tools:context=".MainActivity">
 
-    <View
-        android:id="@+id/decorTop"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:alpha="0.55"
-        android:background="@drawable/bg_blob_top"
-        app:layout_constraintEnd_toStartOf="@id/contentScroll"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/decorBottom"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:alpha="0.45"
-        android:background="@drawable/bg_blob_bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Top header banner -->
+    <LinearLayout
+        android:id="@+id/loginHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_hub_header"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="56dp"
+        android:paddingBottom="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/contentScroll" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/logo_description"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:letterSpacing="0.02" />
+
+        <TextView
+            android:id="@+id/taglineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="@string/app_tagline"
+            android:textColor="#BDD4EF"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Scrollable form area -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScroll"
         android:layout_width="0dp"
@@ -35,58 +63,38 @@
         android:clipToPadding="false"
         android:fillViewport="true"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="20dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/loginHeader">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="14dp"
-            android:paddingBottom="18dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/logoImage"
-                android:layout_width="156dp"
-                android:layout_height="96dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/logo_description"
-                android:scaleType="fitCenter"
-                android:src="@drawable/logo" />
-
+            <!-- Section label -->
             <TextView
-                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/app_name"
-                android:textColor="@color/textPrimary"
-                android:textSize="30sp" />
+                android:layout_marginBottom="16dp"
+                android:text="SIGN IN TO YOUR ACCOUNT"
+                android:textColor="@color/hub_text_secondary"
+                android:textSize="11sp"
+                android:letterSpacing="0.08"
+                android:textAllCaps="true" />
 
-            <TextView
-                android:id="@+id/taglineText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:text="@string/app_tagline"
-                android:textColor="@color/textSecondary"
-                android:textSize="15sp" />
-
+            <!-- Login Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/loginCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                app:cardBackgroundColor="@color/surfaceCard"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="10dp"
-                app:strokeColor="@color/cardStroke"
+                app:cardBackgroundColor="@color/hub_surface"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/hub_divider"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -101,11 +109,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"
-                        app:boxCornerRadiusBottomEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusTopStart="14dp"
-                        app:startIconDrawable="@android:drawable/ic_dialog_email">
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/hub_stroke"
+                        app:hintTextColor="@color/hub_text_secondary"
+                        app:startIconDrawable="@android:drawable/ic_dialog_email"
+                        app:startIconTint="@color/hub_blue">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/emailInput"
@@ -114,7 +125,7 @@
                             android:autofillHints="username,emailAddress"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:textColor="@color/textPrimary" />
+                            android:textColor="@color/hub_text_primary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,12 +136,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:hint="@string/password_hint"
-                        app:boxCornerRadiusBottomEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusTopStart="14dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/hub_stroke"
                         app:endIconMode="password_toggle"
-                        app:startIconDrawable="@android:drawable/ic_lock_lock">
+                        app:hintTextColor="@color/hub_text_secondary"
+                        app:startIconDrawable="@android:drawable/ic_lock_lock"
+                        app:startIconTint="@color/hub_blue">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/passwordInput"
@@ -139,7 +153,7 @@
                             android:autofillHints="password"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:textColor="@color/textPrimary" />
+                            android:textColor="@color/hub_text_primary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -150,33 +164,68 @@
                         android:layout_gravity="end"
                         android:layout_marginTop="10dp"
                         android:text="@string/forgot_password"
-                        android:textColor="@color/linkColor"
+                        android:textColor="@color/hub_blue"
                         android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/loginButton"
+                        style="@style/SchoolHub.Button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
-                        android:paddingVertical="10dp"
+                        android:layout_marginTop="20dp"
+                        android:paddingVertical="13dp"
                         android:text="@string/login"
-                        android:textAllCaps="false"
-                        android:textSize="16sp"
-                        app:cornerRadius="14dp" />
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="@color/hub_divider" />
 
                     <TextView
                         android:id="@+id/signUpText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="14dp"
                         android:text="@string/sign_up_prompt"
-                        android:textColor="@color/linkColor"
-                        android:textSize="13sp" />
+                        android:textColor="@color/hub_blue"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Institution footer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/hub_divider" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:text="Acadexa School Hub"
+                    android:textColor="@color/hub_text_hint"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/hub_divider" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,28 @@ public class NotificationPanelActivity extends AppCompatActivity implements Noti
         findViewById(R.id.notificationsTasksButton).setOnClickListener(v -> openScreen(TasksActivity.class));
         findViewById(R.id.notificationsCalendarButton).setOnClickListener(v -> openScreen(CalendarActivity.class));
         findViewById(R.id.notificationsProfileButton).setOnClickListener(v -> openScreen(ProfileActivity.class));
+
+        BottomNavigationView bottomNav = findViewById(R.id.notificationsBottomNav);
+        // There's no specific menu item for notifications in the bottom nav in this layout
+        // so we uncheck all to show we are on a secondary page
+        bottomNav.getMenu().setGroupCheckable(0, false, true);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                openScreen(DashboardActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_tasks) {
+                openScreen(TasksActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                openScreen(CalendarActivity.class);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                openScreen(ProfileActivity.class);
+                return true;
+            }
+            return false;
+        });
 
         refreshNotifications();
     }

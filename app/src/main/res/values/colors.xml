@@ -2,18 +2,52 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- School Hub Primary Palette -->
+    <color name="hub_navy">#1A2B4A</color>
+    <color name="hub_navy_light">#243558</color>
+    <color name="hub_blue">#2E5FA3</color>
+    <color name="hub_blue_light">#3D74C0</color>
+    <color name="hub_gold">#C8A951</color>
+    <color name="hub_gold_light">#E0C169</color>
+
+    <!-- Surface & Background -->
+    <color name="hub_background">#F0F2F5</color>
+    <color name="hub_surface">#FFFFFF</color>
+    <color name="hub_surface_alt">#F8F9FB</color>
+
+    <!-- Text -->
+    <color name="hub_text_primary">#1A2B4A</color>
+    <color name="hub_text_secondary">#5A6A80</color>
+    <color name="hub_text_on_navy">#FFFFFF</color>
+    <color name="hub_text_hint">#8FA3BE</color>
+
+    <!-- Divider & Stroke -->
+    <color name="hub_divider">#DDE3EC</color>
+    <color name="hub_stroke">#C5D0E0</color>
+
+    <!-- Status Colors -->
+    <color name="hub_success">#1E7A4A</color>
+    <color name="hub_success_bg">#E8F5EE</color>
+    <color name="hub_pending">#B07A1A</color>
+    <color name="hub_pending_bg">#FFF4DC</color>
+    <color name="hub_error">#C0392B</color>
+    <color name="hub_error_bg">#FDECEA</color>
+    <color name="hub_link">#2E5FA3</color>
+
+    <!-- Legacy aliases (used in existing code) -->
     <color name="light_blue">#E3F2FD</color>
     <color name="light_yellow">#FFF8D6</color>
     <color name="light_red">#FDE7E7</color>
-    <color name="red">#F44336</color>
-    <color name="orange">#E68A1F</color>
-    <color name="green">#1B8A5A</color>
-    <color name="surfaceCard">#F8FCFF</color>
-    <color name="cardStroke">#D4E6F8</color>
-    <color name="textPrimary">#123052</color>
-    <color name="textSecondary">#5D7592</color>
-    <color name="linkColor">#2369B7</color>
-    <color name="logoTint">#2C6CB7</color>
-    <color name="blobBlue">#C9E3FF</color>
-    <color name="blobMint">#D6F2EC</color>
+    <color name="red">#C0392B</color>
+    <color name="orange">#B07A1A</color>
+    <color name="green">#1E7A4A</color>
+    <color name="surfaceCard">#FFFFFF</color>
+    <color name="cardStroke">#C5D0E0</color>
+    <color name="textPrimary">#1A2B4A</color>
+    <color name="textSecondary">#5A6A80</color>
+    <color name="linkColor">#2E5FA3</color>
+    <color name="logoTint">#2E5FA3</color>
+    <color name="blobBlue">#D6E4F7</color>
+    <color name="blobMint">#D6EEE8</color>
 </resources>

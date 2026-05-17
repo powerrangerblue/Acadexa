@@ -1,9 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ACADEXA" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme: School Hub -->
+    <style name="Base.Theme.ACADEXA" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/hub_navy</item>
+        <item name="colorPrimaryVariant">@color/hub_navy_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/hub_gold</item>
+        <item name="colorOnSecondary">@color/hub_navy</item>
+        <item name="colorTertiary">@color/hub_blue</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorSurface">@color/hub_surface</item>
+        <item name="colorOnSurface">@color/hub_text_primary</item>
+        <item name="colorSurfaceVariant">@color/hub_surface_alt</item>
+        <item name="android:colorBackground">@color/hub_background</item>
+        <item name="colorError">@color/hub_error</item>
+
+        <!-- TextInputLayout styling -->
+        <item name="textInputStyle">@style/SchoolHub.TextInput</item>
+
+        <!-- MaterialButton default -->
+        <item name="materialButtonStyle">@style/SchoolHub.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/SchoolHub.Button.Outlined</item>
+
+        <!-- BottomNavigationView -->
+        <item name="bottomNavigationStyle">@style/SchoolHub.BottomNav</item>
+
+        <!-- Card styling -->
+        <item name="materialCardViewStyle">@style/SchoolHub.Card</item>
+
+        <!-- Window settings -->
+        <item name="android:windowBackground">@color/hub_background</item>
+        <item name="android:statusBarColor">@color/hub_navy</item>
+        <item name="android:navigationBarColor">@color/hub_surface</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
     </style>
 
     <style name="Theme.ACADEXA" parent="Base.Theme.ACADEXA" />
+
+    <!-- Text Input Style -->
+    <style name="SchoolHub.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxStrokeColor">@color/hub_stroke</item>
+        <item name="hintTextColor">@color/hub_text_secondary</item>
+    </style>
+
+    <!-- Primary Button -->
+    <style name="SchoolHub.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="backgroundTint">@color/hub_navy</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- Outlined Button -->
+    <style name="SchoolHub.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">@color/hub_navy</item>
+        <item name="android:textColor">@color/hub_navy</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Tonal Button (filter/secondary actions) -->
+    <style name="SchoolHub.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">@color/blobBlue</item>
+        <item name="android:textColor">@color/hub_navy</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Text Button -->
+    <style name="SchoolHub.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/hub_blue</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Danger / Error Button -->
+    <style name="SchoolHub.Button.Danger" parent="Widget.Material3.Button">
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">@color/hub_error</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- Card -->
+    <style name="SchoolHub.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/hub_surface</item>
+        <item name="strokeColor">@color/hub_divider</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Bottom Navigation -->
+    <style name="SchoolHub.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/hub_text_secondary</item>
+        <item name="itemTextColor">@color/hub_text_secondary</item>
+
+    </style>
+
+    <!-- Page header label style -->
+    <style name="SchoolHub.Label.Section" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">@color/hub_text_secondary</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <!-- Stat value large text -->
+    <style name="SchoolHub.Text.StatValue" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textColor">@color/hub_text_primary</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Calendar Theme -->
+    <style name="SchoolHub.CalendarTheme" parent="ThemeOverlay.Material3.Light">
+        <item name="colorOnSurface">@color/hub_text_primary</item>
+        <item name="android:textColorPrimary">@color/hub_text_primary</item>
+        <item name="colorPrimary">@color/hub_navy</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
 </resources>
